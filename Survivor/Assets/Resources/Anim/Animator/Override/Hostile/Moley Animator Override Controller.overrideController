@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Moley Animator Override Controller
+  m_Controller: {fileID: 9100000, guid: db3621f01fc1e6947b993877af7a0916, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e0ecfe68ab3e62149930a56426f2aa6a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fa2679bc356ffb843aef8924c00eac8a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7bde67a310c1d134187d367a3dfa8806, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8b199caa9000ee245a8ccfc1730112d4, type: 2}

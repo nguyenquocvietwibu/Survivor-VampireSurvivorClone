@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29e367ea3f306af4787de4d85038cb81, type: 3}
+  m_Name: Joe Guard Survivor Stats
+  m_EditorClassIdentifier: 
+  health: 100
+  attackPower: 10
+  moveSpeed: 2
+  defense: 5
+  growthRate: 0
+  greedRate: 0
+  recoveryAmount: 1
+  rerollAmount: 0
+  banishAmount: 0
+  skipAmount: 0
+  projectileAmount: 1
+  recoveryTime: 5
+  projectileDurationRate: 100
+  projectileSpeedRate: 100
+  projectileDamageAreaRate: 100
+  projectileCoolDownRate: 100
+  luckRate: 0
+  lifeStealRate: 0
