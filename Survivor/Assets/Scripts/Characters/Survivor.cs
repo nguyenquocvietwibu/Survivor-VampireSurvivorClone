@@ -10,8 +10,7 @@ using UnityEngine.Events;
 /// </summary>
 public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObserver
 {
-    private static Survivor _instance;
-    public static Survivor Instance { get => _instance; set => _instance = value; }
+    public static Survivor instance;
 
     public VirtualJoystick joystick;
 
@@ -19,44 +18,28 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     public Animator animator;
     public Rigidbody2D rigidBody2D;
     public SpriteRenderer spriteRenderer;
+
     public float moveSpeed;
 
     public LayerMask checkCastLayerMask;
     public bool isFacingLeft;
 
-    public UnityAction<Vector2> onMove;
-    public UnityAction onIdle;
-    public UnityAction onDisappear;
-    public UnityAction onDie;
-    public UnityAction<float> onDamage;
-    public UnityAction onLevelUp;
-    public UnityAction onRevive;
-
-
-    public SurvivorUnityEventsSO unityEventsSO;
-    public SurvivorStatsSO statsSO;
+    public CharacterStatsSO statsSO;
     public SurvivorFlagsSO flagsSO;
     public SurvivorAbilitiesSO abilitiesSO;
+    public ISurvivorBasicAbilities basicAbilities;
+
 
     public Coroutine coroutine;
 
+
     private bool _hasStarted;
-
-    RaycastHit2D hit;
-
 
     public void SubscribeActions()
     {
         if (_hasStarted)
         {
-            if (abilitiesSO is IMoveAbility moveAbility)
-            {
-                joystick.onMove += moveAbility.OnMoveExecute;
-            }
-            if (abilitiesSO is IIdleAbility idleAbility)
-            {
-                joystick.onIdle += idleAbility.OnIdleExecute;
-            }
+           
         }
     }
 
@@ -64,26 +47,19 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     {
         if (_hasStarted)
         {
-            if (abilitiesSO is IMoveAbility moveAbility)
-            {
-                joystick.onMove -= moveAbility.OnMoveExecute;
-            }
-            if (abilitiesSO is IIdleAbility idleAbility)
-            {
-                joystick.onIdle -= idleAbility.OnIdleExecute;
-            }
+            
         }
     }
-    public void ExecuteSubstitute(Survivor executedInstance)
+    public void PerformSubstitute(Survivor executedInstance)
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
         }
         else
         {
-            Destroy(_instance.gameObject);
-            _instance = this;
+            Destroy(instance.gameObject);
+            instance = this;
         }
     }
 
@@ -98,7 +74,7 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
 
     private void Awake()
     {
-        ExecuteSubstitute(this);
+        PerformSubstitute(this);
 
         moveSpeed = 2f;
 
@@ -107,21 +83,36 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
         animator = GetComponent<Animator>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
 
-        unityEventsSO = Instantiate(unityEventsSO);
+        if (rigidBody2D == null || capsuleCollider2D == null || animator == null || spriteRenderer == null)
+        {
+            throw new Exception("NULL");
+        }
+
+
+
         statsSO = Instantiate(statsSO);
         flagsSO = Instantiate(flagsSO);
         abilitiesSO = Instantiate(abilitiesSO);
+        abilitiesSO.ReceiveAbility(this);
+
+        if (abilitiesSO is ISurvivorBasicAbilities tempBasicAbilities)
+        {
+            basicAbilities = tempBasicAbilities;
+        }
+
+        if (basicAbilities == null)
+        {
+            Debug.Log("NULL");
+        }
+
+        Camera.main.transform.parent = transform;
     }
 
     void Start()
     {
         _hasStarted = true;
-        joystick = VirtualJoystick.Instance;
-
+        joystick = VirtualJoystick.instance;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Survivor"), LayerMask.NameToLayer("Hostile"), true);
-
-        flagsSO.InitializeFlags();
-        abilitiesSO.survivor = this;
         SubscribeActions();
     }
 
@@ -129,49 +120,43 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     // Update is called once per frame
     void Update()
     {
-        CapsuleHurtBoxCast();
-        //HurtboxCastAll();
-    }
-
-    public IEnumerator TakeDamageEveryTime(float damage, float time)
-    {
-        while (true)
+        if (joystick.isJoystickMove)
         {
-            if (flagsSO.canDamage)
-            {
-
-                if (statsSO.health > 0)
-                {
-                    statsSO.health -= Mathf.Abs((statsSO.defense - damage >= 0) ? 1 : statsSO.defense - damage);
-                    Debug.Log((statsSO.defense - damage >= 0) ? 1 : statsSO.defense - damage);
-                }
-                else
-                {
-                    flagsSO.canMove = false;
-                    animator.Play(SurvivorAnimationHash.DisappearHash);
-                }
-            }
-            yield return new WaitForSeconds(time);
+            basicAbilities.Move(joystick.joystickVector2);
+        }
+        else
+        {
+            basicAbilities.Idle();
         }
     }
 
-    public void CapsuleHurtBoxCast()
+    public void OnPlayerInputMovePerformed(Vector2 inputVector2)
     {
-        hit = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, capsuleCollider2D.direction, 0f, Vector2.zero, 0f, checkCastLayerMask);
-        // Kiểm tra các đối tượng va chạm
-        if (hit.collider != null)
+        if (abilitiesSO is ISurvivorBasicAbilities basicAbilities)
         {
-            flagsSO.isDamaged = true;
-            onDamage?.Invoke(hit.collider.GetComponent<Hostile>().hostileStats.currentAttackPower);
+            basicAbilities.Move(inputVector2);
+        }
+    }
+
+    public void OnPlayerInputMoveCancelled()
+    {
+        if (abilitiesSO is ISurvivorBasicAbilities basicAbilities)
+        {
+            basicAbilities.Idle();
+        }
+    }
+
+    public void OnAliveCapsuleHurtBoxCast()
+    {
+        RaycastHit2D hit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, capsuleCollider2D.direction, 0f, Vector2.zero, 0f, checkCastLayerMask);
+        // Kiểm tra các đối tượng va chạm
+        if (hit2D.collider != null)
+        {
+
         }
         else
         {
             flagsSO.isDamaged = false;
-            if (coroutine != null)
-            {
-                StopCoroutine(coroutine);
-            }
-            coroutine = null;
         }
     }
     private void OnDrawGizmos()

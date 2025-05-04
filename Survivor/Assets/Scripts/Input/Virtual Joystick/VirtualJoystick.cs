@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System;
 
 public class VirtualJoystick : MonoBehaviour,
     IDragHandler,
@@ -9,8 +10,7 @@ public class VirtualJoystick : MonoBehaviour,
     IPointerUpHandler,
     ISubstituteObject<VirtualJoystick>
 {
-    private static VirtualJoystick _instance;
-    public static VirtualJoystick Instance { get { return _instance; } set { _instance = value; } }
+    public static VirtualJoystick instance;
 
     public RectTransform joyStickBacgroundRectTransform;
     public RectTransform joystickHandleRectTransform;
@@ -32,9 +32,7 @@ public class VirtualJoystick : MonoBehaviour,
     public Vector3 worldPointUpPositionVector3;
     public Vector3 worldPointDragPositionVector3;
 
-    public UnityAction<Vector2> onMove;
-    public UnityAction onIdle;
-
+    public bool isJoystickMove;
 
     /// <summary>
     /// Bán kinh di chuyển của cần điều khiển joystick
@@ -47,7 +45,7 @@ public class VirtualJoystick : MonoBehaviour,
 
     private void Awake()
     {
-        ExecuteSubstitute(this);
+        PerformSubstitute(this);
         joystickCanvas = GetComponentInParent<Canvas>();
         Debug.Log("Awake Virtual Joystick");
     }
@@ -90,10 +88,9 @@ public class VirtualJoystick : MonoBehaviour,
             joystickVector2 = clampedVector2 / joyStickRadius;
 
             //Debug.Log($"[Joystick] Drag vector: {joystickVector2}");
-            onMove?.Invoke(joystickVector2);
-
             testVector2 = localPointDragVector2;
         }
+        isJoystickMove = true;
     }
 
 
@@ -109,6 +106,7 @@ public class VirtualJoystick : MonoBehaviour,
             screenPointDownPositionVector2 = eventData.position;
         }
         ShowJoyStick();
+
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -122,7 +120,7 @@ public class VirtualJoystick : MonoBehaviour,
         }
         HideJoyStick();
         joystickVector2 = Vector2.zero;
-        onIdle?.Invoke();
+        isJoystickMove = false;
     }
 
     public void ShowJoyStick()
@@ -134,16 +132,16 @@ public class VirtualJoystick : MonoBehaviour,
         joyStickBacgroundRectTransform.gameObject.SetActive(false);
     }
 
-    public void ExecuteSubstitute(VirtualJoystick executedInstance)
+    public void PerformSubstitute(VirtualJoystick executedInstance)
     {
-        if (_instance == null)
+        if (instance == null)
         {
-            _instance = this;
+            instance = this;
         }
         else
         {
-            Destroy(_instance.gameObject);
-            _instance = this;
+            Destroy(instance.gameObject);
+            instance = this;
         }
     }
 }

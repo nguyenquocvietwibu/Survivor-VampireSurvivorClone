@@ -12,27 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a4862d723d8524b804652bbe479893, type: 3}
   m_Name: Survivor Flags SO
   m_EditorClassIdentifier: 
-  canMove: 0
-  canDamage: 0
-  canAttack: 0
-  canHealthUp: 0
-  canAttackUp: 0
-  canMoveSpeedUp: 0
-  canDefenseUp: 0
-  canRecoveryAmountUp: 0
-  canProjectileAmountUp: 0
-  canRerollAmountUp: 0
-  canBanishAmountUp: 0
-  canSkipAmountUp: 0
-  canRecoveryTimeUp: 0
-  canGrowthRateUp: 0
-  canGreedRateUp: 0
-  canProjectileDurationRateUp: 0
-  canProjectileSpeedRateUp: 0
-  canProjectileDamageAreaRateUp: 0
-  canProjectileCoolDownRateUp: 0
-  canLuckRateUp: 0
-  canLifeStealRateUp: 0
+  canMove: 1
+  canDamage: 1
+  canAttack: 1
+  canRevive: 1
+  canHealthUp: 1
+  canAttackUp: 1
+  canMoveSpeedUp: 1
+  canDefenseUp: 1
+  canRecoveryAmountUp: 1
+  canProjectileAmountUp: 1
+  canRerollAmountUp: 1
+  canBanishAmountUp: 1
+  canSkipAmountUp: 1
+  canRecoveryTimeUp: 1
+  canGrowthRateUp: 1
+  canGreedRateUp: 1
+  canProjectileDurationRateUp: 1
+  canProjectileSpeedRateUp: 1
+  canProjectileDamageAreaRateUp: 1
+  canProjectileCoolDownRateUp: 1
+  canLuckRateUp: 1
+  canLifeStealRateUp: 1
   isMoving: 0
   isDamaged: 0
-  isDied: 0
+  isFacingLeft: 0
+  isDisappeared: 0
+  isAlive: 1

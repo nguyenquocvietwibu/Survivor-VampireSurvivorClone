@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bd5a2a6eaf95c4b9191e4c1e8b065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystick: {fileID: 0}
+  playerDeviceInput: {fileID: 0}
   capsuleCollider2D: {fileID: 0}
   animator: {fileID: 0}
   rigidBody2D: {fileID: 0}
@@ -193,7 +193,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   isFacingLeft: 0
-  unityEventsSO: {fileID: 11400000, guid: 99f3a57ddcc93ae4abd66f5c298c0056, type: 2}
-  statsSO: {fileID: 11400000, guid: bc6103827058ccc48b71d8ca74a4cc6b, type: 2}
+  statsSO: {fileID: 11400000, guid: 440ea76a3222d93449328a19ae516bcb, type: 2}
   flagsSO: {fileID: 11400000, guid: 3f0b94b69d53c264682b4cc3b46facf6, type: 2}
-  abilitiesSO: {fileID: 11400000, guid: 957becdaae8669a4f9f4f471abfb282e, type: 2}
+  abilitiesSO: {fileID: 11400000, guid: 0708140197a84394398e3aedaad6fab0, type: 2}

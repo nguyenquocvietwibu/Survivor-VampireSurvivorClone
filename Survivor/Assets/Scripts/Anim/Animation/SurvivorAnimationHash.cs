@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class SurvivorAnimationHash
 {
-    public static int MoveHash = Animator.StringToHash("Survivor Move");
-    public static int IdleHash = Animator.StringToHash("Survivor Idle");
-    public static int DisappearHash = Animator.StringToHash("Survivor Disappear");
+    public static int moveHash = Animator.StringToHash("Survivor Move");
+    public static int idleHash = Animator.StringToHash("Survivor Idle");
+    public static int disappearHash = Animator.StringToHash("Survivor Disappear");
 }

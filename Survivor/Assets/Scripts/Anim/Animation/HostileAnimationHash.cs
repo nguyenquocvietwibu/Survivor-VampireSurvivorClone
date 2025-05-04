@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public static class HostileAnimationHash
 {
-    public static int MoveHash;
-    public static int DisappearHash;
+    public static int IdleHash = Animator.StringToHash("Hostile Idle");
+    public static int MoveHash = Animator.StringToHash("Hostile Move");
+    public static int DisappearHash = Animator.StringToHash("Hostile Disappear");
 }

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IMoveAbility
 {
-    public void OnMoveExecute(Vector2 movementVector2);
+    public event UnityAction MovePerformed;
+    public void Move(Vector2 movementVector2);
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IFixedStatsAbility
 {
-    public void ExecuteFixedStats();
+    public void PerformFixedStats();
 }

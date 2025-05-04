@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57a03784c91f784686919b1539567d8, type: 3}
+  m_Name: Joe Guard Basic Abilities SO
+  m_EditorClassIdentifier: 
+  abilitiesName: Number 2
+  abilitiesDescription: "M\u1ED7i c\u1EA5p + 1 ch\u1EC9 s\u1ED1 attack power v\xE0
+    + 1 ch\u1EC9 s\u1ED1 defense."
+  survivor: {fileID: 0}
+  levelUpAbilitySO: {fileID: 11400000, guid: 40b3bbcf51f0e654cb271d237b8c911e, type: 2}
+  moveAbilitySO: {fileID: 11400000, guid: 64ab87d1c52bf2744876c5ff2153d672, type: 2}

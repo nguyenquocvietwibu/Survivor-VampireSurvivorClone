@@ -34,35 +34,8 @@ public class SurvivorFlagsSO : ScriptableObject
 
     public bool isMoving;
     public bool isDamaged;
-    public bool isDied;
     public bool isFacingLeft;
+    public bool isDisappeared;
+    public bool isAlive;
 
-    public void InitializeFlags()
-    {
-        canMove = true;
-        canDamage = true;
-        canAttack = true;
-        canRevive = true;
-
-        canHealthUp = true;
-        canAttackUp = true;
-        canMoveSpeedUp = true;
-        canDefenseUp = true;
-        canRecoveryAmountUp = true;
-        canRerollAmountUp = true;
-        canBanishAmountUp = true;
-        canSkipAmountUp = true;
-        canProjectileAmountUp = true;
-
-        canRecoveryTimeUp = true;
-
-        canGrowthRateUp = true;
-        canGreedRateUp = true;
-        canProjectileDurationRateUp = true;
-        canProjectileSpeedRateUp = true;
-        canProjectileDamageAreaRateUp = true;
-        canProjectileCoolDownRateUp = true;
-        canLuckRateUp = true;
-        canLifeStealRateUp = true;
-    }
 }

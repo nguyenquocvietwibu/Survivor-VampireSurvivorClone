@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -8,22 +9,25 @@ using UnityEngine;
 public class GameObjectPool : MonoBehaviour
 {
 
-    public Stack<GameObject> pooledGOStack = new Stack<GameObject>();
+    public Stack<GameObject> pooledGOStack = new();
 
     public GameObject pooledGO;
 
     public GameObject tempPooledGO;
-
+    public List<GameObject> pooledGOList = new();
     /// <summary>
     /// Phương thức thu hồi đối tượng game object vào hồ
     /// </summary>
     /// <param name="pooledGameObject"></param>
     public void GoInPool(GameObject pooledGameObject)
+
     {
         pooledGOStack.Push(pooledGameObject);
         pooledGameObject.transform.parent = transform;
         pooledGameObject.transform.localPosition = Vector3.zero;
         pooledGameObject.SetActive(false);
+
+        pooledGOList = pooledGOStack.ToList();
     }
 
     /// <summary>
@@ -38,6 +42,9 @@ public class GameObjectPool : MonoBehaviour
             tempPooledGO = pooledGOStack.Pop();
             tempPooledGO.transform.SetParent(parentTransform);
             tempPooledGO.SetActive(true);
+
+            pooledGOList = pooledGOStack.ToList();
+
             return tempPooledGO;
         }
         else
@@ -46,8 +53,12 @@ public class GameObjectPool : MonoBehaviour
             tempPooledGO = GameObjectFactory.CreateProduct(pooledGO, parentTransform);
             tempPooledGO.transform.localPosition = Vector3.zero;
             tempPooledGO.SetActive(true);
+
+            pooledGOList = pooledGOStack.ToList();
+
             return tempPooledGO;
         }
+        
     }
 
     /// <summary>
@@ -64,6 +75,8 @@ public class GameObjectPool : MonoBehaviour
             tempPooledGO.transform.localPosition = Vector3.zero;
             tempPooledGO.SetActive(false);
             pooledGOStack.Push(tempPooledGO);
+
+            pooledGOList = pooledGOStack.ToList();
         }
     }
 

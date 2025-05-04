@@ -14,8 +14,6 @@ GameObject:
   - component: {fileID: 1117030009049772952}
   - component: {fileID: 7849148372135037360}
   - component: {fileID: 5133684716422006422}
-  - component: {fileID: 3641111392750862658}
-  - component: {fileID: 6329254646420220463}
   m_Layer: 7
   m_Name: Foxy
   m_TagString: Hostile
@@ -99,7 +97,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 1786358748, guid: 66d5b254edba8694099c5084cf0f711d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -195,37 +193,9 @@ MonoBehaviour:
   isFacingLeft: 0
   joystick: {fileID: 0}
   summonedTime: 0
-  stats: {fileID: 0}
-  summonedGameObjectPool: {fileID: 0}
---- !u!114 &3641111392750862658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3113959070566672538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63804270e29749c4a9d44e79d930bed3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canMove: 0
-  canDamage: 0
-  canAttack: 0
---- !u!114 &6329254646420220463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3113959070566672538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b91b0f40c14e71a4daf92b721f5f1d8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statsSO: {fileID: 11400000, guid: b5413c6aca2d65b4fa91c401f7ef54c1, type: 2}
-  currentHealth: 0
-  currentAttackPower: 0
-  currentMoveSpeed: 0
-  currentDefense: 0
+  statsSO: {fileID: 11400000, guid: d71b5662132a03b48b821c4283c00c8f, type: 2}
+  initialstatsSO: {fileID: 0}
+  abilitesSO: {fileID: 11400000, guid: 013bf7119463c8e4d835bfe5ec433e63, type: 2}
+  flagSO: {fileID: 11400000, guid: 3f1557adf2113d84d8b4095d337f2af7, type: 2}
+  summonedPool: {fileID: 0}
+  hasStarted: 0

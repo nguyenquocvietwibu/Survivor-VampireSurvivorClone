@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e396f188349570d43a432f54dd4c4793, type: 3}
+  m_Name: Carl Anger Stats SO
+  m_EditorClassIdentifier: 
+  health: 100
+  attackPower: 15
+  moveSpeed: 2
+  defense: 0
+  growthRate: 0
+  greedRate: 0
+  recoveryAmount: 0
+  rerollAmount: 0
+  banishAmount: 0
+  skipAmount: 0
+  projectileAmount: 0
+  recoveryTime: 0
+  level: 0
+  experience: 0
+  projectileDurationRate: 100
+  projectileSpeedRate: 100
+  projectileDamageAreaRate: 100
+  projectileCoolDownRate: 100
+  luckRate: 0
+  lifeStealRate: 0

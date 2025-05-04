@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInvincibleAbility
 {
-    public IEnumerator PerformTemporaryInivicibility(float invicibilityTime);
+    public IEnumerator ProcessTemporaryInivicibility(float invicibilityTime);
 }

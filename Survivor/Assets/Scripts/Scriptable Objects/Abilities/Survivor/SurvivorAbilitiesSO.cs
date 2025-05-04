@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SurvivorAbilitiesSO : ScriptableObject
+public abstract class SurvivorAbilitiesSO : AbilitiesSO
 {
-    public string survivorAbilityName;
-
-    public string survivorAbilityDescription;
-
     public Survivor survivor;
+    public void ReceiveAbility(Survivor receivedSurvivor)
+    {
+        survivor = receivedSurvivor;
+    }
 }
 

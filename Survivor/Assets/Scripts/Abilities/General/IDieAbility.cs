@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public interface IDieAbility
+public interface IDie
 {
-    public void OnDieExecute();
+    public event UnityAction DiePerformed;
+    public void Die();
 }

@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Hostile : MonoBehaviour
+/// <summary>
+/// Lớp mô tả hostile thù địch của survivor
+/// </summary>
+public class Hostile : MonoBehaviour, IActionsObserver
 {
-    public GameObject trackedSurvivor;
+    public Survivor trackedSurvivor;
 
     public float moveSpeed;
     public float smoothFactor; // càng cao thì càng dí sát
@@ -23,12 +26,53 @@ public class Hostile : MonoBehaviour
     public float summonedTime;
 
     public UnityAction<GameObjectPool> DisappearTosummonedGameObjectPoolActionTrigger;
+    public UnityAction onAlive;
+    public UnityAction<Vector2> onMove;
+    public UnityAction onSurvivorChase;
+    public UnityAction onDisappear;
+    public UnityAction onStun;
+    public UnityAction onIdle;
 
-    public HostileStats hostileStats;
+    public CharacterStatsSO statsSO;
+    public CharacterStatsSO initialstatsSO;
 
-    public HostileFlags hostileFlags;
+    public HostileAbilitesSO abilitesSO;
 
-    public GameObjectPool summonedGameObjectPool;
+    public HostileFlagSO flagSO;
+
+    public GameObjectPool summonedPool;
+
+    public bool hasStarted;
+
+    public void SubscribeActions()
+    {
+        if (hasStarted)
+        {
+            //if (abilitesSO is IHostileBasicAbilities basicAbilities)
+            //{
+
+            //}
+            
+        }
+    }
+
+    public void UnSubscribeActions()
+    {
+        if (hasStarted)
+        {
+
+        }
+    }
+
+    private void OnEnable()
+    {
+        SubscribeActions();
+    }
+
+    private void OnDisable()
+    {
+        UnSubscribeActions();
+    }
     void Awake()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
@@ -39,25 +83,48 @@ public class Hostile : MonoBehaviour
         moveSpeed = 1f;
         smoothFactor = 1.0f;
         summonedTime = 0f;
+
+        //if (summonedPool == null)
+        //{
+        //    throw new System.Exception("summonedGOPool is null");
+        //}
+
+        if (statsSO == null)
+        {
+            throw new System.Exception("hostileStatsSO == null");
+        }
+
+        if (abilitesSO == null)
+        {
+            throw new System.Exception("abilitesSO == null");
+        }
     }
 
     private void Start()
     {
-        trackedSurvivor = Survivor.Instance.gameObject;
-        summonedGameObjectPool = GetComponentInParent<GameObjectPool>();
-        if (summonedGameObjectPool == null )
+        hasStarted = true;
+        trackedSurvivor = Survivor.instance;
+        if (trackedSurvivor == null)
         {
-            throw new System.Exception("summonedPool is null");
+            throw new System.Exception("NULL");
         }
-        hostileStats = GetComponent<HostileStats>();
-        hostileFlags = GetComponent<HostileFlags>();
+
+        summonedPool = GetComponentInParent<GameObjectPool>();
+
+        initialstatsSO = statsSO;
+        statsSO = Instantiate(statsSO);
+        flagSO = Instantiate(flagSO);
+        abilitesSO = Instantiate(abilitesSO);
+        abilitesSO.hostile = this;
+
+        SubscribeActions();
         
     }
     private void Update()
     {
         if (summonedTime >= 10f)
         {
-            DisappearTosummonedGameObjectPoolActionTrigger?.Invoke(summonedGameObjectPool);
+            DisappearTosummonedGameObjectPoolActionTrigger?.Invoke(summonedPool);
         }
         directionVector2 = (trackedSurvivor.transform.position - transform.position).normalized;
 
@@ -72,6 +139,13 @@ public class Hostile : MonoBehaviour
             spriteRenderer.flipX = isFacingLeft;
         }
         // Mượt hóa vận tốc để không bị "bấu víu"
-        rigidBody2D.velocity = Vector2.Lerp(rigidBody2D.velocity, directionVector2 * moveSpeed, Time.deltaTime * smoothFactor);
+
+        onMove?.Invoke(Vector2.Lerp(rigidBody2D.velocity, directionVector2 * moveSpeed, Time.deltaTime * smoothFactor));
     }
+
+    public void OnSurvivorChase()
+    {
+        
+    }
+
 }

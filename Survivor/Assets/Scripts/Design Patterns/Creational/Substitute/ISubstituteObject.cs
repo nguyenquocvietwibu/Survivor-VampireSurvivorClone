@@ -8,5 +8,5 @@ public interface ISubstituteObject<T> where T : class
     /// Phương thức thực hiện việc thay thế thể hiện T cũ thành 1 thể hiện mới của T được tạo ra
     /// </summary>
     /// <param name="executeInstance"></param>
-    public void ExecuteSubstitute(T executedInstance);
+    public void PerformSubstitute(T executedInstance);
 }

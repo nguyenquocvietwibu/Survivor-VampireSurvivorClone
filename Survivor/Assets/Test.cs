@@ -8,7 +8,7 @@ public class Test : MonoBehaviour
     private void OnEnable()
     {
         Debug.Log("Enable Test");
-        Debug.Log(VirtualJoystick.Instance);
-        Debug.Log(Survivor.Instance);
+        Debug.Log(VirtualJoystick.instance);
+        Debug.Log(Survivor.instance);
     }
 }

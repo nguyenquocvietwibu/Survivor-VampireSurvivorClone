@@ -11,12 +11,19 @@ public class SurvivorSelecter : MonoBehaviour
         Destroy(GetComponent<SpriteRenderer>());
         if (selectedSurvivorPrefab == null)
         {
-            throw new System.Exception("selectedSurvivorPrefab is null");
+            throw new System.Exception("NULL");
         }
         else
         {
-            GameObject tempSelectedSurvivorGO = GameObjectFactory.CreateProduct(selectedSurvivorPrefab, transform.parent);
-            tempSelectedSurvivorGO.transform.position = Vector3.zero;
+            if (selectedSurvivorPrefab.GetComponent<Survivor>() != null)
+            {
+                GameObject tempSelectedSurvivorGO = GameObjectFactory.CreateProduct(selectedSurvivorPrefab, transform.parent);
+                tempSelectedSurvivorGO.transform.position = Vector3.zero;
+            }
+            else
+            {
+                throw new System.Exception("NOT TRUE");
+            }
         }
 
     }

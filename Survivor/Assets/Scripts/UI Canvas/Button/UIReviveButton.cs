@@ -4,19 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class UIReviveButton : MonoBehaviour, IPointerDownHandler
+public class UIReviveButton : MonoBehaviour, ISubstituteObject<UIReviveButton>, IPointerDownHandler
 {
-    public static UIReviveButton _instance;
-
-    public UnityAction ButtonDownActionTrigger;
-
-    public static UIReviveButton Instance { get { return _instance; } set { _instance = value; } }
+    public static UIReviveButton instance;
 
     private bool _hasStarted;
 
+    public UnityAction onClick;
+
     private void Awake()
     {
-        _instance = this;
+        PerformSubstitute(this);
+        instance = this;
     }
 
    
@@ -44,12 +43,25 @@ public class UIReviveButton : MonoBehaviour, IPointerDownHandler
 
     private void OnDisable()
     {
-
+        PerformSubstitute(this);
     }
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        ButtonDownActionTrigger?.Invoke();
+        onClick?.Invoke();
+    }
+
+    public void PerformSubstitute(UIReviveButton executedInstance)
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
     }
 }
