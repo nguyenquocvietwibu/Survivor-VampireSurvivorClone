@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Lớp thực hiện hiệu ứng cuộn vô tận tilemap quanh đối tượng được theo dõi
 /// </summary>
-public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour
+public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour, IActionsObserver
 {
     public Tilemap scrolledTilemap;
 
@@ -28,8 +28,38 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour
     public float distance;
     public float scrolledDistance;
 
+    private bool _hasStarted;
+
+
+    public void SubscribeActions()
+    {
+        if (_hasStarted)
+        {
+            trackedSurvivor.basicAbilities.MovePerformed += OnSurvivorMove;
+        }
+    }
+
+    public void UnSubscribeActions()
+    {
+        if (_hasStarted)
+        {
+            trackedSurvivor.basicAbilities.MovePerformed -= OnSurvivorMove;
+        }
+    }
+
+    private void OnEnable()
+    {
+        SubscribeActions();
+    }
+
+    private void OnDisable()
+    {
+        UnSubscribeActions();
+    }
+
     void Start()
     {
+        _hasStarted = true;
         if (scrolledTilemap == null)
         {
             scrolledTilemap = GetComponentInChildren<Tilemap>();
@@ -84,13 +114,13 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour
         {
             throw new System.Exception("NULL");
         }
-
+        SubscribeActions();
     }
 
     // Update is called once per frame
     void Update()
     {
-        ScrollTilemap();
+        //ScrollTilemap();
     }
 
     public void SwapFistAndLastScrollTilemapGO()
@@ -98,6 +128,11 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour
         _tempScrolledTilemapGO = firstScrolledTilemapGO;
         firstScrolledTilemapGO = lastScrolledTilemapGO;
         lastScrolledTilemapGO = _tempScrolledTilemapGO;
+    }
+
+    public void OnSurvivorMove()
+    {
+        ScrollTilemap();
     }
 
     public void ScrollTilemap()

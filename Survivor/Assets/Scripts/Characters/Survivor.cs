@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,12 +24,12 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
 
     public LayerMask checkCastLayerMask;
     public bool isFacingLeft;
-
-    public CharacterStatsSO statsSO;
     public SurvivorFlagsSO flagsSO;
-    public SurvivorAbilitiesSO abilitiesSO;
     public ISurvivorBasicAbilities basicAbilities;
+    public AbilitiesManager abilitiesManager;
+    public StatsSO oStatsSO;
 
+    public StatsManager statsManager;
 
     public Coroutine coroutine;
 
@@ -76,43 +77,48 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     {
         PerformSubstitute(this);
 
-        moveSpeed = 2f;
-
         rigidBody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
 
+
         if (rigidBody2D == null || capsuleCollider2D == null || animator == null || spriteRenderer == null)
         {
-            throw new Exception("NULL");
+            throw new Exception("Component NULL");
         }
 
-
-
-        statsSO = Instantiate(statsSO);
         flagsSO = Instantiate(flagsSO);
-        abilitiesSO = Instantiate(abilitiesSO);
-        abilitiesSO.ReceiveAbility(this);
 
-        if (abilitiesSO is ISurvivorBasicAbilities tempBasicAbilities)
+        if (abilitiesManager.abilitiesSO is ISurvivorBasicAbilities tempBasicAbilities)
         {
+            Debug.Log("SDSD");
+            abilitiesManager.abilitiesSO.ReceiveAbility(this);
             basicAbilities = tempBasicAbilities;
         }
-
-        if (basicAbilities == null)
+        else
         {
-            Debug.Log("NULL");
+            throw new Exception("Survivor Abilites NULL");
         }
 
         Camera.main.transform.parent = transform;
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Survivor"), LayerMask.NameToLayer("Hostile"), true);
     }
 
     void Start()
     {
         _hasStarted = true;
+
+
+        statsManager = GetComponent<StatsManager>();
+        abilitiesManager = GetComponent<AbilitiesManager>();
+
+
+       
+
         joystick = VirtualJoystick.instance;
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Survivor"), LayerMask.NameToLayer("Hostile"), true);
+
         SubscribeActions();
     }
 
@@ -124,28 +130,11 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
         {
             basicAbilities.Move(joystick.joystickVector2);
         }
-        else
+        else if (joystick.isJoystickUp)
         {
             basicAbilities.Idle();
         }
     }
-
-    public void OnPlayerInputMovePerformed(Vector2 inputVector2)
-    {
-        if (abilitiesSO is ISurvivorBasicAbilities basicAbilities)
-        {
-            basicAbilities.Move(inputVector2);
-        }
-    }
-
-    public void OnPlayerInputMoveCancelled()
-    {
-        if (abilitiesSO is ISurvivorBasicAbilities basicAbilities)
-        {
-            basicAbilities.Idle();
-        }
-    }
-
     public void OnAliveCapsuleHurtBoxCast()
     {
         RaycastHit2D hit2D = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, capsuleCollider2D.direction, 0f, Vector2.zero, 0f, checkCastLayerMask);

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3236071337170503974}
   - component: {fileID: 125812493177520258}
   - component: {fileID: 8414582608986920681}
+  - component: {fileID: 6258757949671727577}
+  - component: {fileID: 6582305415472127952}
   m_Layer: 6
   m_Name: Joe Guard
   m_TagString: Survivor
@@ -183,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bd5a2a6eaf95c4b9191e4c1e8b065a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDeviceInput: {fileID: 0}
+  joystick: {fileID: 0}
   capsuleCollider2D: {fileID: 0}
   animator: {fileID: 0}
   rigidBody2D: {fileID: 0}
@@ -193,6 +195,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   isFacingLeft: 0
-  statsSO: {fileID: 11400000, guid: 440ea76a3222d93449328a19ae516bcb, type: 2}
   flagsSO: {fileID: 11400000, guid: 3f0b94b69d53c264682b4cc3b46facf6, type: 2}
+  abilitiesManager: {fileID: 6582305415472127952}
+  oStatsSO: {fileID: 11400000, guid: 7f0c5addf8dd19e4e973f6bfaa510e8e, type: 2}
+  statsManager: {fileID: 6258757949671727577}
+--- !u!114 &6258757949671727577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3078023850124323174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ae04f8d5f8df74dae7e158cac5e9ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStatSO: {fileID: 11400000, guid: 7f0c5addf8dd19e4e973f6bfaa510e8e, type: 2}
+  maxStatSO: {fileID: 0}
+--- !u!114 &6582305415472127952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3078023850124323174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840df5d95cbd9574b8c83b226459e2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   abilitiesSO: {fileID: 11400000, guid: 0708140197a84394398e3aedaad6fab0, type: 2}

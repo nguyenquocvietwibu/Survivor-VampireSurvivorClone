@@ -5,5 +5,5 @@ using UnityEngine;
 public abstract class AbilitySO : ScriptableObject
 {
     public string abilityName;
-    public string abilityDescription;
+    public string[] abilityDescription;
 }

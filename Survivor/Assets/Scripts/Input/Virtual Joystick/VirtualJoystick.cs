@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using System.Collections;
 
 public class VirtualJoystick : MonoBehaviour,
     IDragHandler,
@@ -14,6 +15,8 @@ public class VirtualJoystick : MonoBehaviour,
 
     public RectTransform joyStickBacgroundRectTransform;
     public RectTransform joystickHandleRectTransform;
+
+    public RectTransform joyStickAreaRectTransform;
 
     public Canvas joystickCanvas; // Canvas chứa joystick
    
@@ -33,7 +36,7 @@ public class VirtualJoystick : MonoBehaviour,
     public Vector3 worldPointDragPositionVector3;
 
     public bool isJoystickMove;
-
+    public bool isJoystickUp;
     /// <summary>
     /// Bán kinh di chuyển của cần điều khiển joystick
     /// </summary>
@@ -43,16 +46,19 @@ public class VirtualJoystick : MonoBehaviour,
 
     public Vector2 testVector2;
 
+    public Coroutine joystickUpCoroutine;
+
     private void Awake()
     {
         PerformSubstitute(this);
-        joystickCanvas = GetComponentInParent<Canvas>();
+        
         Debug.Log("Awake Virtual Joystick");
     }
     private void Start()
     {
-       
 
+        joystickCanvas = GetComponentInParent<Canvas>();
+        joyStickAreaRectTransform = GetComponentInParent<RectTransform>();
         RectTransform joystickCanvasRectTransform = joystickCanvas.transform as RectTransform;
 
         x = joystickCanvasRectTransform.rect.x;
@@ -121,6 +127,15 @@ public class VirtualJoystick : MonoBehaviour,
         HideJoyStick();
         joystickVector2 = Vector2.zero;
         isJoystickMove = false;
+        if (joystickUpCoroutine != null)
+        {
+            StopCoroutine(joystickUpCoroutine);
+            joystickUpCoroutine = StartCoroutine(ProcessJoystickUpCancel());
+        }
+        else
+        {
+            joystickUpCoroutine = StartCoroutine(ProcessJoystickUpCancel());
+        }
     }
 
     public void ShowJoyStick()
@@ -143,5 +158,12 @@ public class VirtualJoystick : MonoBehaviour,
             Destroy(instance.gameObject);
             instance = this;
         }
+    }
+
+    public IEnumerator ProcessJoystickUpCancel()
+    {
+        isJoystickUp = true;
+        yield return new WaitForEndOfFrame();
+        isJoystickUp = false;
     }
 }

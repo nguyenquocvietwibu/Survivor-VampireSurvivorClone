@@ -5,9 +5,13 @@ using UnityEngine;
 public abstract class SurvivorAbilitiesSO : AbilitiesSO
 {
     public Survivor survivor;
-    public void ReceiveAbility(Survivor receivedSurvivor)
+
+    public override void ReceiveAbility(MonoBehaviour receivedMonobehaviorObject)
     {
-        survivor = receivedSurvivor;
+        if (receivedMonobehaviorObject is Survivor)
+        {
+            survivor = receivedMonobehaviorObject as Survivor;
+        }
     }
 }
 

@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class TestContextMenu : MonoBehaviour
 {
+    public int counter = 0;
 
-    private void OnEnable()
+    [ContextMenu("Reset Counter")]
+    private void ResetCounter()
     {
-        Debug.Log("Enable Test");
-        Debug.Log(VirtualJoystick.instance);
-        Debug.Log(Survivor.instance);
+        counter = 0;
+        Debug.Log("Counter reset!");
     }
 }

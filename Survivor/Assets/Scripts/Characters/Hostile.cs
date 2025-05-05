@@ -33,14 +33,16 @@ public class Hostile : MonoBehaviour, IActionsObserver
     public UnityAction onStun;
     public UnityAction onIdle;
 
-    public CharacterStatsSO statsSO;
-    public CharacterStatsSO initialstatsSO;
+    public StatsSO statsSO;
+    public StatsSO initialstatsSO;
 
     public HostileAbilitesSO abilitesSO;
 
     public HostileFlagSO flagSO;
 
     public GameObjectPool summonedPool;
+
+    public StatsManager statsManager;
 
     public bool hasStarted;
 
@@ -98,6 +100,8 @@ public class Hostile : MonoBehaviour, IActionsObserver
         {
             throw new System.Exception("abilitesSO == null");
         }
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hostile"), LayerMask.NameToLayer("Hostile"), true);
     }
 
     private void Start()
@@ -140,7 +144,7 @@ public class Hostile : MonoBehaviour, IActionsObserver
         }
         // Mượt hóa vận tốc để không bị "bấu víu"
 
-        onMove?.Invoke(Vector2.Lerp(rigidBody2D.velocity, directionVector2 * moveSpeed, Time.deltaTime * smoothFactor));
+        rigidBody2D.velocity = Vector2.Lerp(rigidBody2D.velocity, directionVector2 * statsManager.currentStatSO.GetStat(Stat.MoveSpeed).statValue, Time.deltaTime * smoothFactor);
     }
 
     public void OnSurvivorChase()

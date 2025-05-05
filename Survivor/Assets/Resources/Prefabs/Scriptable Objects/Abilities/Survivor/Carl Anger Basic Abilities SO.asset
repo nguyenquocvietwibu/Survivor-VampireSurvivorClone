@@ -17,3 +17,4 @@ MonoBehaviour:
     kh\xF4ng th\u1EC3 nh\u1EADn th\xEAm b\u1EA5t k\xEC ch\u1EC9 s\u1ED1 defense."
   survivor: {fileID: 0}
   levelUpAbilitySO: {fileID: 11400000, guid: f2c25b96e14e2c04dac80d8bdd7304a1, type: 2}
+  moveAbilitySO: {fileID: 11400000, guid: 6fba242ace9f96449ab123c45077b7cb, type: 2}

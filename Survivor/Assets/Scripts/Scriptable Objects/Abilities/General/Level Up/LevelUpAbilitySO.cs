@@ -6,5 +6,8 @@ using UnityEngine.Events;
 
 public abstract class LevelUpAbilitySO : AbilitySO
 {
-    public abstract void PerformLevelUp(CharacterStatsSO statSO);
+    public virtual void PerformLevelUp(StatsSO statSO)
+    {
+
+    }
 }

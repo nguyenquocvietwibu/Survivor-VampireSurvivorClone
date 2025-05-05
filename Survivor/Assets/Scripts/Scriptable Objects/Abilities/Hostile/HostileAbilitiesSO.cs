@@ -6,8 +6,11 @@ public abstract class HostileAbilitesSO : AbilitiesSO
 {
     public Hostile hostile;
 
-    public void ReceiveAbilities(Hostile receivedHostile)
+    public override void ReceiveAbility(MonoBehaviour receivedMonobehaviorObject)
     {
-        hostile = receivedHostile;
+        if (receivedMonobehaviorObject is Hostile)
+        {
+            hostile = receivedMonobehaviorObject as Hostile;
+        }
     }
 }

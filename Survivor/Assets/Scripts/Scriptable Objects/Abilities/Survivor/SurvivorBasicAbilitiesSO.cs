@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,12 +12,17 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
     public event UnityAction RevivePerformed;
     public event UnityAction DisappearPerformed;
     public event UnityAction DiePerformed;
+    public event UnityAction UpdateStatPerformed;
 
     public LevelUpAbilitySO levelUpAbilitySO;
     public MoveAbilitySO moveAbilitySO;
     public void Damage(float damageAmount)
     {
-        survivor.statsSO.health -= damageAmount;
+        //survivor.statsSO.health -= damageAmount;
+        if (survivor.oStatsSO.GetStat(Stat.Health) != null)
+        {
+
+        }
     }
 
     public void Die()
@@ -35,11 +39,11 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
 
     public void GainXp(int xpAmount)
     {
-        survivor.statsSO.experience += xpAmount;
-        if (survivor.statsSO.experience == ILevelUpAbility.GetXpRequired(survivor.statsSO.level))
-        {
-            LevelUp();
-        }
+        //survivor.statsSO.experience += xpAmount;
+        //if (survivor.statsSO.experience == ILevelUpAbility.GetXpRequired(survivor.statsSO.level))
+        //{
+        //    LevelUp();
+        //}
     }
 
     public void Idle()
@@ -51,8 +55,9 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
 
     public void LevelUp()
     {
-        levelUpAbilitySO.PerformLevelUp(survivor.statsSO);
+        levelUpAbilitySO.PerformLevelUp(survivor.statsManager.currentStatSO);
         LevelUpPerformed?.Invoke();
+        UpdateStat();
     }
 
     public void Move(Vector2 movementVector2)
@@ -67,7 +72,17 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
         }
         survivor.animator.Play(SurvivorAnimationHash.moveHash);
         //survivor.rigidBody2D.velocity = movementVector2 * survivor.statsSO.moveSpeed;
-        moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.statsSO.moveSpeed);
+        //moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.cStatsSO.moveSpeed);
+
+
+
+
+        moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.statsManager.currentStatSO.GetStat(Stat.MoveSpeed).statValue);
+#if UNITY_EDITOR
+        // Mã này sẽ chỉ chạy trong Unity Editor
+        survivor.statsManager.currentStatSO.GetStat(Stat.Health).statValue += 0.5f;
+        //survivor.statsManager.currentStatSO.UpdateStat(Stat.MoveSpeed);
+#endif
         MovePerformed?.Invoke();
     }
 
@@ -85,5 +100,10 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
     public IEnumerator ProcessTemporaryInivicibility(float invicibilityTime)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void UpdateStat()
+    {
+        UpdateStatPerformed?.Invoke();
     }
 }
