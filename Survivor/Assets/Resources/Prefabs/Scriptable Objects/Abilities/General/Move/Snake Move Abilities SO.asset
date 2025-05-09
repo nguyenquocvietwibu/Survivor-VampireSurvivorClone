@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Snake Move Abilities SO
   m_EditorClassIdentifier: 
   abilityName: Snake Move
-  abilityDescription: "Di chuy\u1EC3n nh\u01B0 1 con r\u1EAFn"
+  abilityDescription:
+  - "Di chuy\u1EC3n gi\u1ED1ng con r\u1EAFn"
+  - "frequency l\xE0 t\u1EA7n s\u1ED1 giao \u0111\u1ED9ng (c\xE0ng cao c\xE0ng nhanh)"
+  - "Amplitude l\xE0 bi\xEAn \u0111\u1ED9 giao \u0111\u1ED9ng (c\xE0ng cao c\xE0ng
+    r\u1ED9ng)"
   frequency: 3
-  amplitude: 1
-  accumulatedDistance: 437.27582
-  velocityVector2: {x: 1.3734374, y: 1.7519149}
-  perpendicularVector2: {x: -0.97797406, y: 0.20872644}
+  amplitude: 2
+  velocityVector2: {x: 0, y: 0}
+  perpendicularVector2: {x: 0, y: 0}
+  accumulatedTime: 0

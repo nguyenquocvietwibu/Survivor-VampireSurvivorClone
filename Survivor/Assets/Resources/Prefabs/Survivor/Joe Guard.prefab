@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8414582608986920681}
   - component: {fileID: 6258757949671727577}
   - component: {fileID: 6582305415472127952}
+  - component: {fileID: -1532206190628886153}
   m_Layer: 6
   m_Name: Joe Guard
   m_TagString: Survivor
@@ -197,8 +198,11 @@ MonoBehaviour:
   isFacingLeft: 0
   flagsSO: {fileID: 11400000, guid: 3f0b94b69d53c264682b4cc3b46facf6, type: 2}
   abilitiesManager: {fileID: 6582305415472127952}
-  oStatsSO: {fileID: 11400000, guid: 7f0c5addf8dd19e4e973f6bfaa510e8e, type: 2}
   statsManager: {fileID: 6258757949671727577}
+  statesManager: {fileID: -1532206190628886153}
+  basicAbilitiesSO: {fileID: 0}
+  stateMachineSO: {fileID: 11400000, guid: 37972f5eaba66ef439c7f2ded708e061, type: 2}
+  playerInputVector2: {x: 0, y: 0}
 --- !u!114 &6258757949671727577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ae04f8d5f8df74dae7e158cac5e9ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStatSO: {fileID: 11400000, guid: 7f0c5addf8dd19e4e973f6bfaa510e8e, type: 2}
+  currentStatSO: {fileID: 11400000, guid: 3ee4012b9c124a5409fef5b971611ec0, type: 2}
   maxStatSO: {fileID: 0}
 --- !u!114 &6582305415472127952
 MonoBehaviour:
@@ -226,3 +230,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilitiesSO: {fileID: 11400000, guid: 0708140197a84394398e3aedaad6fab0, type: 2}
+--- !u!114 &-1532206190628886153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3078023850124323174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4116cf72d2b6f44bcc1ff1b52f6283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleState:
+    statName: Survivor Idle
+    stateDescriptions:
+    - "\u0110\u1EE9ng y\xEAn nh\xE0n r\u1ED7i"
+    - "N\u1EBFu c\xF3 input t\u1EEB player th\xEC s\u1EBD chuy\u1EC3n sang Move State"
+    survivor: {fileID: 0}
+  moveState:
+    statName: Survivor Run
+    stateDescriptions:
+    - "Di chuy\u1EC3n theo input vector 2 c\u1EE7a player"
+    - "\u0110\u1EE9ng y\xEAn n\u1EBFu kh\xF4ng c\xF3 input vector 2 t\u1EEB player"
+    survivor: {fileID: 0}

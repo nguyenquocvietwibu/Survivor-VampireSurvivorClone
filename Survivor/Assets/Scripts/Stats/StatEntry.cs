@@ -18,4 +18,7 @@ public class StatEntry
     /// </summary>
     public float statValue;
 
+    public bool canIncrease = true;
+
+    public bool canDecrease = true;
 }

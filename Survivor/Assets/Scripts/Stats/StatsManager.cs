@@ -10,9 +10,13 @@ public class StatsManager : MonoBehaviour
     public StatsSO currentStatSO;
     public StatsSO maxStatSO;
 
-    private void Awake()
+
+    /// <summary>
+    /// Phương thức thực hiện clone lại StatSO đưa vào currentStatSo sau đó tiếp tục clone currentStatSO đưa vào maxStatSO
+    /// </summary>
+    /// <exception cref="System.Exception"></exception>
+    public void CloneStats()
     {
-        
         if (currentStatSO != null)
         {
             currentStatSO = currentStatSO.GetCloneSO();
@@ -27,7 +31,6 @@ public class StatsManager : MonoBehaviour
         {
             throw new System.Exception("NULL");
         }
-        
     }
 
     public void UpdateMaxStat()

@@ -6,7 +6,7 @@ public class AbilitiesManager : MonoBehaviour
 {
     public AbilitiesSO abilitiesSO;
 
-    private void Awake()
+    public void CloneAbilites()
     {
         if (abilitiesSO == null)
         {
@@ -14,7 +14,7 @@ public class AbilitiesManager : MonoBehaviour
         }
         else
         {
-            abilitiesSO = Instantiate(abilitiesSO);
+            abilitiesSO = abilitiesSO.GetCloneSO();
         }
     }
 }

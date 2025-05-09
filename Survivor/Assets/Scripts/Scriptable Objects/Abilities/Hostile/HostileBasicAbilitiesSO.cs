@@ -14,6 +14,9 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
     public event UnityAction DiePerformed;
 
     public MoveAbilitySO moveAbilitySO;
+    public GameObject ItemDropPrefab;
+
+
     public void Damage(float damageAmount)
     {
         throw new System.NotImplementedException();
@@ -24,19 +27,6 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
         hostile.animator.Play(HostileAnimationHash.DisappearHash);
     }
 
-    public void OnIdleExecute()
-    {
-        //hostile.animator.Play(hostile.idleHash);
-        hostile.animator.speed = 0f;
-        hostile.rigidBody2D.velocity = Vector2.zero;
-    }
-
-    public void OnMoveExecute(Vector2 movementVector2)
-    {
-        hostile.animator.speed = 1f;
-        hostile.animator.Play(HostileAnimationHash.MoveHash);
-        hostile.rigidBody2D.velocity = movementVector2;
-    }
 
     public void Revive()
     {
@@ -45,12 +35,13 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
 
     public void Move(Vector2 movementVector2)
     {
+        hostile.animator.Play(HostileAnimationHash.MoveHash);
         moveAbilitySO.PerformMove(hostile.rigidBody2D, movementVector2);
     }
 
     public void Idle()
     {
-        throw new System.NotImplementedException();
+        hostile.rigidBody2D.velocity = Vector2.zero;
     }
 
     public IEnumerator ProcessChaseSurvivor()
@@ -61,5 +52,19 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
     public void Die()
     {
         throw new System.NotImplementedException();
+    }
+
+    public override AbilitiesSO GetCloneSO()
+    {
+        HostileBasicAbilitiesSO cloneBasicAbilitiesSO = ScriptableObject.CreateInstance<HostileBasicAbilitiesSO>();
+        cloneBasicAbilitiesSO.moveAbilitySO = (MoveAbilitySO)moveAbilitySO.GetCloneSO();
+        cloneBasicAbilitiesSO.ItemDropPrefab = ItemDropPrefab;
+        return cloneBasicAbilitiesSO;
+    }
+
+    public void DropItem()
+    {
+
+        XpGemSummonRift.instance.SummonXpGem(ItemDropPrefab, hostile.transform.position + new Vector3(-5, 0));
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +14,8 @@ public class Hostile : MonoBehaviour, IActionsObserver
     public float moveSpeed;
     public float smoothFactor; // càng cao thì càng dí sát
 
+    public CapsuleCollider2D capsuleCollider2D;
+    public CapsuleCollider2D hitboxCapsuleCollider2D;
     public Rigidbody2D rigidBody2D;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
@@ -33,11 +36,6 @@ public class Hostile : MonoBehaviour, IActionsObserver
     public UnityAction onStun;
     public UnityAction onIdle;
 
-    public StatsSO statsSO;
-    public StatsSO initialstatsSO;
-
-    public HostileAbilitesSO abilitesSO;
-
     public HostileFlagSO flagSO;
 
     public GameObjectPool summonedPool;
@@ -45,6 +43,10 @@ public class Hostile : MonoBehaviour, IActionsObserver
     public StatsManager statsManager;
 
     public bool hasStarted;
+
+    public AbilitiesManager abilitiesManager;
+    //public IHostileBasicAbilities basicAbilities;
+    public HostileBasicAbilitiesSO basicAbilitiesSO;
 
     public void SubscribeActions()
     {
@@ -80,8 +82,34 @@ public class Hostile : MonoBehaviour, IActionsObserver
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        statsManager = GetComponent<StatsManager>();
+        abilitiesManager = GetComponent<AbilitiesManager>();
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        if (rigidBody2D == null || animator == null || spriteRenderer == null)
+        {
+            throw new Exception("Component NULL");
+        }
 
-        animator.Play(HostileAnimationHash.MoveHash);
+        if (abilitiesManager != null)
+        {
+            abilitiesManager.CloneAbilites();
+        }
+
+        if (statsManager != null)
+        {
+            statsManager.CloneStats();
+        }
+
+        if (abilitiesManager.abilitiesSO is HostileBasicAbilitiesSO tempBasicAbilitiesSO)
+        {
+            abilitiesManager.abilitiesSO.ReceiveAbility(this);
+            basicAbilitiesSO = tempBasicAbilitiesSO;
+        }
+        else
+        {
+            throw new System.Exception("NULL Hostile abilitesSO");
+        }
+
         moveSpeed = 1f;
         smoothFactor = 1.0f;
         summonedTime = 0f;
@@ -91,17 +119,8 @@ public class Hostile : MonoBehaviour, IActionsObserver
         //    throw new System.Exception("summonedGOPool is null");
         //}
 
-        if (statsSO == null)
-        {
-            throw new System.Exception("hostileStatsSO == null");
-        }
-
-        if (abilitesSO == null)
-        {
-            throw new System.Exception("abilitesSO == null");
-        }
-
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hostile"), LayerMask.NameToLayer("Hostile"), true);
+        
     }
 
     private void Start()
@@ -115,14 +134,11 @@ public class Hostile : MonoBehaviour, IActionsObserver
 
         summonedPool = GetComponentInParent<GameObjectPool>();
 
-        initialstatsSO = statsSO;
-        statsSO = Instantiate(statsSO);
         flagSO = Instantiate(flagSO);
-        abilitesSO = Instantiate(abilitesSO);
-        abilitesSO.hostile = this;
 
         SubscribeActions();
-        
+
+        Physics2D.IgnoreCollision(capsuleCollider2D, Survivor.instance.capsuleCollider2D);
     }
     private void Update()
     {
@@ -144,7 +160,40 @@ public class Hostile : MonoBehaviour, IActionsObserver
         }
         // Mượt hóa vận tốc để không bị "bấu víu"
 
-        rigidBody2D.velocity = Vector2.Lerp(rigidBody2D.velocity, directionVector2 * statsManager.currentStatSO.GetStat(Stat.MoveSpeed).statValue, Time.deltaTime * smoothFactor);
+        //rigidBody2D.velocity = Vector2.Lerp(rigidBody2D.velocity, directionVector2 * statsManager.currentStatSO.GetStatValue(Stat.MoveSpeed), Time.deltaTime * smoothFactor);
+        //basicAbilities.Move(Vector2.Lerp(rigidBody2D.velocity, directionVector2 * statsManager.currentStatSO.GetStatValue(Stat.MoveSpeed), Time.deltaTime * smoothFactor));
+        basicAbilitiesSO.Move(Vector2.Lerp(rigidBody2D.velocity, directionVector2 * statsManager.currentStatSO.GetStatValue(Stat.MoveSpeed), 1));
+
+    }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.collider.CompareTag("Survivor"))
+    //    {
+    //        Debug.Log("Attack Player");
+    //        Survivor.instance.basicAbilitiesSO.Damage(statsManager.currentStatSO.GetStatValue(Stat.AttackPower));
+    //    }
+    //}
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Survivor"))
+        {
+            Debug.Log("Attack Player");
+            Survivor.instance.basicAbilitiesSO.Damage(statsManager.currentStatSO.GetStatValue(Stat.AttackPower));
+            Debug.Log(statsManager.currentStatSO.GetStatValue(Stat.AttackPower));
+            Die();
+        }
+    }
+
+    private bool _isDied;
+    public void Die()
+    {
+        if (!_isDied)
+        {
+            basicAbilitiesSO.DropItem();
+        }
+        _isDied = true;
     }
 
     public void OnSurvivorChase()

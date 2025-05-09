@@ -35,7 +35,7 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour, IActionsObserv
     {
         if (_hasStarted)
         {
-            trackedSurvivor.basicAbilities.MovePerformed += OnSurvivorMove;
+            trackedSurvivor.basicAbilitiesSO.MovePerformed += OnSurvivorMove;
         }
     }
 
@@ -43,7 +43,7 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour, IActionsObserv
     {
         if (_hasStarted)
         {
-            trackedSurvivor.basicAbilities.MovePerformed -= OnSurvivorMove;
+            trackedSurvivor.basicAbilitiesSO.MovePerformed -= OnSurvivorMove;
         }
     }
 
@@ -118,10 +118,10 @@ public class InfinityScrollTilemapAroundSurvivor : MonoBehaviour, IActionsObserv
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        //ScrollTilemap();
-    }
+    //void Update()
+    //{
+    //    //ScrollTilemap();
+    //}
 
     public void SwapFistAndLastScrollTilemapGO()
     {

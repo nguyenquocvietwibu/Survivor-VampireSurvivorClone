@@ -12,6 +12,9 @@ TagManager:
   - StrongHostilePool
   - EliteHostilePool
   - XpGem
+  - SurvivorHurtbox
+  - Hurtbox
+  - SurvivorPickupArea
   layers:
   - Default
   - TransparentFX
@@ -25,7 +28,7 @@ TagManager:
   - Brush
   - Player
   - Xp Gem
-  - 
+  - Survivor Hurtbox
   - 
   - 
   - 

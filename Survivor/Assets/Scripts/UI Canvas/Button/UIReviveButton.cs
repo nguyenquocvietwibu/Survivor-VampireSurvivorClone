@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class UIReviveButton : MonoBehaviour, ISubstituteObject<UIReviveButton>, IPointerDownHandler
+public class UIReviveButton : MonoBehaviour, ISubstitute<UIReviveButton>, IPointerDownHandler
 {
     public static UIReviveButton instance;
 

@@ -9,8 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f838f5a44a57d4f914e5b6546196b6, type: 3}
+  m_Script: {fileID: 11500000, guid: a343d38982b5a7d4b83160530869dcca, type: 3}
   m_Name: Carl Anger Level Up Abilities SO
   m_EditorClassIdentifier: 
-  abilityName: Anger Level Up Bonus
-  abilityDescription: "Khi level up + 3 ch\u1EC9 s\u1ED1 attack power"
+  abilityName: "Level Up c\u1EE7a Carl Anger"
+  abilityDescription:
+  - "C\xE1c ch\u1EC9 s\u1ED1 thay \u0111\u1ED5i khi l\xEAn c\u1EA5p:"
+  - +1 Level
+  - +3 attack power
+  bonusStatList:
+  - bonusStatKey: 0
+    bonusStatValue: 1
+  - bonusStatKey: 3
+    bonusStatValue: 3

@@ -13,8 +13,16 @@ MonoBehaviour:
   m_Name: Carl Anger Basic Abilities SO
   m_EditorClassIdentifier: 
   abilitiesName: Number 1
-  abilitiesDescription: "M\u1ED7i c\u1EA5p + 3 ch\u1EC9 s\u1ED1 attack power nh\u01B0ng
-    kh\xF4ng th\u1EC3 nh\u1EADn th\xEAm b\u1EA5t k\xEC ch\u1EC9 s\u1ED1 defense."
+  abilitiesDescription:
+  - "S\u1EDF h\u1EEFu c\xE1c kh\u1EA3 n\u0103ng c\u01A1 b\u1EA3n c\u1EE7a Survivor"
+  - "M\u1ED7i khi l\xEAn c\u1EA5p + 3 ch\u1EC9 s\u1ED1 attack power"
+  - "Kh\xF4ng th\u1EC3 nh\u1EADn th\xEAm b\u1EA5t k\xEC  ch\u1EC9 s\u1ED1 m\xE1u"
   survivor: {fileID: 0}
-  levelUpAbilitySO: {fileID: 11400000, guid: f2c25b96e14e2c04dac80d8bdd7304a1, type: 2}
+  levelUpAbilitySO: {fileID: 11400000, guid: 5840d57dc74f9ec4691c8d64f5eea7a8, type: 2}
   moveAbilitySO: {fileID: 11400000, guid: 6fba242ace9f96449ab123c45077b7cb, type: 2}
+  isDamaged: 0
+  canDamage: 1
+  canRevive: 1
+  canDisappear: 1
+  canDie: 1
+  canMove: 1

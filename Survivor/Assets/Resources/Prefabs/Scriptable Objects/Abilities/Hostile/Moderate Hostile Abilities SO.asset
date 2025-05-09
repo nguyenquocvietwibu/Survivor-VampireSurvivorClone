@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079dc1dee20eee548a7e1c1f563b3b80, type: 3}
+  m_Name: Moderate Hostile Abilities SO
+  m_EditorClassIdentifier: 
+  abilitiesName: Default Basic Hostile Abilites
+  abilitiesDescription:
+  - "S\u1EE1 h\u1EEFu c\xE1c kh\u1EA3 n\u0103ng c\u01A1 b\u1EA3n c\u1EE7a Hostile"
+  hostile: {fileID: 0}
+  moveAbilitySO: {fileID: 11400000, guid: 78a8cdb88b99221489223bda9d0a48b8, type: 2}
+  ItemDropPrefab: {fileID: 327503261076335551, guid: 1a3129f32e15ce84c8268cb0d6f07380, type: 3}

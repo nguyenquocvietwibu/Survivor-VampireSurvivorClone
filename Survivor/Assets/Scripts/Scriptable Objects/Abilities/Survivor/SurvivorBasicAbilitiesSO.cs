@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Class mô tả các khả năng cơ bản của Survivor kèm một số khả năng đặc có thể khác biệt
+/// </summary>
 [CreateAssetMenu(fileName = "New Survivor Basic Abilities SO", menuName = "Scriptable Objects/Abilities/Survivor/Basic Abilities")]
 public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbilities
 {
@@ -12,17 +15,30 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
     public event UnityAction RevivePerformed;
     public event UnityAction DisappearPerformed;
     public event UnityAction DiePerformed;
-    public event UnityAction UpdateStatPerformed;
 
     public LevelUpAbilitySO levelUpAbilitySO;
     public MoveAbilitySO moveAbilitySO;
+
+
+    public bool isDamaged;
+
+    public bool canDamage;
+    public bool canRevive;
+    public bool canDisappear;
+    public bool canDie;
+    public bool canMove;
+
+    public Coroutine invincibilityProcess;
+
     public void Damage(float damageAmount)
     {
         //survivor.statsSO.health -= damageAmount;
-        if (survivor.oStatsSO.GetStat(Stat.Health) != null)
+        if (canDamage)
         {
-
+            survivor.statsManager.currentStatSO.SetStatValue(Stat.Health, survivor.statsManager.currentStatSO.GetStatValue(Stat.Health) - damageAmount);
+            isDamaged = true;
         }
+        
     }
 
     public void Die()
@@ -37,18 +53,23 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
         DisappearPerformed?.Invoke();
     }
 
-    public void GainXp(int xpAmount)
+    public void GainXp(float xpAmount)
     {
-        //survivor.statsSO.experience += xpAmount;
-        //if (survivor.statsSO.experience == ILevelUpAbility.GetXpRequired(survivor.statsSO.level))
-        //{
-        //    LevelUp();
-        //}
+        float currentXp = survivor.statsManager.currentStatSO.GetStatValue(Stat.Experience);
+        float requireXp = ILevelUpAbility.GetXpRequired(survivor.statsManager.currentStatSO.GetStatValue(Stat.Level));
+        survivor.statsManager.currentStatSO.SetStatValue(Stat.Experience, currentXp + xpAmount);
+        currentXp = survivor.statsManager.currentStatSO.GetStatValue(Stat.Experience);
+        while (currentXp >= requireXp)
+        {
+            Debug.Log("Level Up");
+            LevelUp();
+            currentXp -= requireXp;
+            survivor.statsManager.currentStatSO.SetStatValue(Stat.Experience, currentXp);
+        }
     }
 
     public void Idle()
     {
-        survivor.animator.Play(SurvivorAnimationHash.idleHash);
         survivor.rigidBody2D.velocity = Vector2.zero;
         IdlePerformed?.Invoke();
     }
@@ -57,7 +78,6 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
     {
         levelUpAbilitySO.PerformLevelUp(survivor.statsManager.currentStatSO);
         LevelUpPerformed?.Invoke();
-        UpdateStat();
     }
 
     public void Move(Vector2 movementVector2)
@@ -70,19 +90,7 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
         {
             survivor.spriteRenderer.flipX = true;
         }
-        survivor.animator.Play(SurvivorAnimationHash.moveHash);
-        //survivor.rigidBody2D.velocity = movementVector2 * survivor.statsSO.moveSpeed;
-        //moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.cStatsSO.moveSpeed);
-
-
-
-
-        moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.statsManager.currentStatSO.GetStat(Stat.MoveSpeed).statValue);
-#if UNITY_EDITOR
-        // Mã này sẽ chỉ chạy trong Unity Editor
-        survivor.statsManager.currentStatSO.GetStat(Stat.Health).statValue += 0.5f;
-        //survivor.statsManager.currentStatSO.UpdateStat(Stat.MoveSpeed);
-#endif
+        moveAbilitySO.PerformMove(survivor.rigidBody2D, movementVector2 * survivor.statsManager.currentStatSO.GetStatValue(Stat.MoveSpeed));
         MovePerformed?.Invoke();
     }
 
@@ -97,13 +105,38 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
         throw new System.NotImplementedException();
     }
 
-    public IEnumerator ProcessTemporaryInivicibility(float invicibilityTime)
+    public IEnumerator ProcessInivicibility(float invicibilityTime)
     {
-        throw new System.NotImplementedException();
+        while (true)
+        {
+            if (isDamaged)
+            {
+                canDamage = false;
+                isDamaged = false;
+                yield return new WaitForSeconds(invicibilityTime);
+                canDamage = true;
+            }
+            yield return null;
+        }
     }
 
-    public void UpdateStat()
+
+    public override AbilitiesSO GetCloneSO()
     {
-        UpdateStatPerformed?.Invoke();
+        SurvivorBasicAbilitiesSO cloneBasicAbilitiesSO = ScriptableObject.CreateInstance<SurvivorBasicAbilitiesSO>();
+        cloneBasicAbilitiesSO.levelUpAbilitySO = (LevelUpAbilitySO)levelUpAbilitySO.GetCloneSO();
+        cloneBasicAbilitiesSO.moveAbilitySO = (MoveAbilitySO)moveAbilitySO.GetCloneSO();
+        cloneBasicAbilitiesSO.canDamage = canDamage;
+        cloneBasicAbilitiesSO.canDie = canDie;
+        cloneBasicAbilitiesSO.canDisappear = canDisappear;
+        cloneBasicAbilitiesSO.canRevive = canRevive;
+        cloneBasicAbilitiesSO.canMove = canMove;
+        return cloneBasicAbilitiesSO;
+    }
+
+    public void InitializeAbilites()
+    {
+        
+        invincibilityProcess = survivor.StartCoroutine(ProcessInivicibility(0.2f));
     }
 }

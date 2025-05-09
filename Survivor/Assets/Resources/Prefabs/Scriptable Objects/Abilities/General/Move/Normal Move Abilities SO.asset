@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Normal Move Abilities SO
   m_EditorClassIdentifier: 
   abilityName: Normal Move
-  abilityDescription: "Di chuy\u1EC3n b\xECnh th\u01B0\u1EDDng"
+  abilityDescription:
+  - "Di chuy\u1EC3n b\xECnh th\u01B0\u1EDDng"

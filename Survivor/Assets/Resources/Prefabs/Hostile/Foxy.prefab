@@ -188,6 +188,8 @@ MonoBehaviour:
   trackedSurvivor: {fileID: 0}
   moveSpeed: 1
   smoothFactor: 5
+  capsuleCollider2D: {fileID: 0}
+  hitboxCapsuleCollider2D: {fileID: 0}
   rigidBody2D: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -195,13 +197,11 @@ MonoBehaviour:
   isFacingLeft: 0
   joystick: {fileID: 0}
   summonedTime: 0
-  statsSO: {fileID: 0}
-  initialstatsSO: {fileID: 0}
-  abilitesSO: {fileID: 11400000, guid: 013bf7119463c8e4d835bfe5ec433e63, type: 2}
   flagSO: {fileID: 11400000, guid: 3f1557adf2113d84d8b4095d337f2af7, type: 2}
   summonedPool: {fileID: 0}
   statsManager: {fileID: 0}
   hasStarted: 0
+  abilitiesManager: {fileID: 0}
 --- !u!114 &3267277846067543672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ae04f8d5f8df74dae7e158cac5e9ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStatSO: {fileID: 0}
+  currentStatSO: {fileID: 11400000, guid: 7e3996ee1294c9c4b83c637315562842, type: 2}
   maxStatSO: {fileID: 0}
 --- !u!114 &4288998458313367246
 MonoBehaviour:
@@ -228,4 +228,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840df5d95cbd9574b8c83b226459e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilitiesSO: {fileID: 0}
+  abilitiesSO: {fileID: 11400000, guid: 013bf7119463c8e4d835bfe5ec433e63, type: 2}

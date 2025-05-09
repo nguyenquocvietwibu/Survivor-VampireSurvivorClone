@@ -9,13 +9,14 @@ using UnityEngine.Events;
 /// <summary>
 /// Class mô tả cho người sinh tồn (survivor) là nhân vật được điều khiển bởi input của bởi người chơi
 /// </summary>
-public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObserver
+public class Survivor : MonoBehaviour, ISubstitute<Survivor>, IActionsObserver
 {
     public static Survivor instance;
 
     public VirtualJoystick joystick;
 
     public CapsuleCollider2D capsuleCollider2D;
+    public CapsuleCollider2D hurtboxCapsuleCollider2D;
     public Animator animator;
     public Rigidbody2D rigidBody2D;
     public SpriteRenderer spriteRenderer;
@@ -25,22 +26,31 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     public LayerMask checkCastLayerMask;
     public bool isFacingLeft;
     public SurvivorFlagsSO flagsSO;
-    public ISurvivorBasicAbilities basicAbilities;
+
     public AbilitiesManager abilitiesManager;
-    public StatsSO oStatsSO;
 
     public StatsManager statsManager;
 
+    public SurvivorStatesManager statesManager;
+
+    public SurvivorBasicAbilitiesSO basicAbilitiesSO;
+
+
     public Coroutine coroutine;
 
+    public StateMachineSO stateMachineSO;
+
+    public List<Type> types;
 
     private bool _hasStarted;
+
+    public Vector2 playerInputVector2;
 
     public void SubscribeActions()
     {
         if (_hasStarted)
         {
-           
+            joystick.joystickInputVector2Performed += OnPlayerInputVector2;
         }
     }
 
@@ -48,7 +58,7 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
     {
         if (_hasStarted)
         {
-            
+            joystick.joystickInputVector2Performed -= OnPlayerInputVector2;
         }
     }
     public void PerformSubstitute(Survivor executedInstance)
@@ -81,7 +91,9 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
-
+        statsManager = GetComponent<StatsManager>();
+        abilitiesManager = GetComponent<AbilitiesManager>();
+        statesManager = GetComponent<SurvivorStatesManager>();
 
         if (rigidBody2D == null || capsuleCollider2D == null || animator == null || spriteRenderer == null)
         {
@@ -90,20 +102,44 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
 
         flagsSO = Instantiate(flagsSO);
 
-        if (abilitiesManager.abilitiesSO is ISurvivorBasicAbilities tempBasicAbilities)
+        if (abilitiesManager != null)
         {
-            Debug.Log("SDSD");
-            abilitiesManager.abilitiesSO.ReceiveAbility(this);
-            basicAbilities = tempBasicAbilities;
+            abilitiesManager.CloneAbilites();
+            if (abilitiesManager.abilitiesSO is SurvivorBasicAbilitiesSO tempBasicAbilitiesSO)
+            {
+                abilitiesManager.abilitiesSO.ReceiveAbility(this);
+                basicAbilitiesSO = tempBasicAbilitiesSO;
+                basicAbilitiesSO.InitializeAbilites();
+            }
+            else
+            {
+                Debug.Log("Survivor Abilites NULL");
+            }
         }
-        else
+
+        if (statsManager != null)
         {
-            throw new Exception("Survivor Abilites NULL");
+            statsManager.CloneStats();
         }
+
+        if (statesManager != null)
+        {
+            statesManager.ReceiveStates(this);
+        }
+
+
+
+        if (stateMachineSO != null)
+        {
+            stateMachineSO.GetCloneSO();
+            stateMachineSO.InitializeState(statesManager.idleState);
+        }
+
+       
 
         Camera.main.transform.parent = transform;
 
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Survivor"), LayerMask.NameToLayer("Hostile"), true);
+        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Survivor"), LayerMask.NameToLayer("Hostile"), true);
     }
 
     void Start()
@@ -120,20 +156,22 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
         joystick = VirtualJoystick.instance;
 
         SubscribeActions();
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (joystick.isJoystickMove)
-        {
-            basicAbilities.Move(joystick.joystickVector2);
-        }
-        else if (joystick.isJoystickUp)
-        {
-            basicAbilities.Idle();
-        }
+        stateMachineSO.UpdateState();
+        //if (joystick.isJoystickMove)
+        //{
+        //    basicAbilitiesSO.Move(joystick.joystickVector2);
+        //}
+        //else if (joystick.isJoystickUp)
+        //{
+        //    basicAbilitiesSO.Idle();
+        //}
     }
     public void OnAliveCapsuleHurtBoxCast()
     {
@@ -147,6 +185,11 @@ public class Survivor : MonoBehaviour, ISubstituteObject<Survivor>, IActionsObse
         {
             flagsSO.isDamaged = false;
         }
+    }
+
+    public void OnPlayerInputVector2(Vector2 inputVector2)
+    {
+        playerInputVector2 = inputVector2;
     }
     private void OnDrawGizmos()
     {

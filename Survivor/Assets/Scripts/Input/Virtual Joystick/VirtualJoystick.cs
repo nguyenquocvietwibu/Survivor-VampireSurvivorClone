@@ -9,9 +9,11 @@ public class VirtualJoystick : MonoBehaviour,
     IDragHandler,
     IPointerDownHandler,
     IPointerUpHandler,
-    ISubstituteObject<VirtualJoystick>
+    ISubstitute<VirtualJoystick>
 {
     public static VirtualJoystick instance;
+
+    public event UnityAction<Vector2> joystickInputVector2Performed;
 
     public RectTransform joyStickBacgroundRectTransform;
     public RectTransform joystickHandleRectTransform;
@@ -95,6 +97,7 @@ public class VirtualJoystick : MonoBehaviour,
 
             //Debug.Log($"[Joystick] Drag vector: {joystickVector2}");
             testVector2 = localPointDragVector2;
+            joystickInputVector2Performed?.Invoke(joystickVector2);
         }
         isJoystickMove = true;
     }
@@ -126,6 +129,8 @@ public class VirtualJoystick : MonoBehaviour,
         }
         HideJoyStick();
         joystickVector2 = Vector2.zero;
+        joystickInputVector2Performed?.Invoke(joystickVector2);
+
         isJoystickMove = false;
         if (joystickUpCoroutine != null)
         {

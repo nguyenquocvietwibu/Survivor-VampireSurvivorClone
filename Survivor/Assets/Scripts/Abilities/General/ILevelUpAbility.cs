@@ -5,11 +5,11 @@ public interface ILevelUpAbility
 {
     public event UnityAction LevelUpPerformed;
 
-    //public static readonly int[] xpToNextLevel = new int[]
+    //public static readonly float[] xpToNextLevel = new float[]
     //{
     //    100, 200, 350, 500, /*...*/ 99999 // Đến level 100
     //};
-    //public int GetXpToNextLevel(int currentlevel)
+    //public float GetXpToNextLevel(float currentlevel)
     //{
     //    return xpToNextLevel[currentlevel - 1]; // hoặc gọi công thức
     //}
@@ -21,21 +21,21 @@ public interface ILevelUpAbility
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
-    //public static int GetXpRequireForLevel(int level)
+    //public static float GetXpRequireForLevel(float level)
     //{
     //    return Mathf.FloorToInt(100 * Mathf.Pow(1.1f, level)); // tăng dần mỗi cấp theo số mũ
     //}
 
     /// <summary>
-    /// Tăng tuyến tính mỗi cấp cần hơn cấp trước 50 XP
+    /// Tăng tuyến tính mỗi cấp cần hơn cấp trước 5 Xp, ít nhất cần 10 xp để lên cấp độ đầu tiên
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
-    public static int GetXpRequired(int level)
+    public static float GetXpRequired(float level)
     {
-         return 100 + (level) * 50; 
+         return 10 + (level) * 5; 
     }
 
-    public void GainXp(int xpAmount);
+    public void GainXp(float xpAmount);
 
 }

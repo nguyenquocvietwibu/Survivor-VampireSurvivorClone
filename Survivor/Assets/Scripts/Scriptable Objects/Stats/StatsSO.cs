@@ -8,13 +8,13 @@ using UnityEngine.Events;
 /// Class SO mô tả các chỉ số của 1 đối tượng
 /// </summary>
 [CreateAssetMenu(fileName = "New Object Stats SO", menuName = "Scriptable Objects/Object Stats")]
-public class StatsSO : ScriptableObject
+public class StatsSO : ScriptableObject, IModifyStatAbility, ICloneScriptableObjectAbility<StatsSO>
 {
     public List<StatEntry> statList = new();
 
     public Dictionary<Stat, StatEntry> statDict = new();
 
-    public event UnityAction StatUpdatePerformed;
+    public event UnityAction ModifiyStatPerformed;
 
     /// <summary>
     /// Clone lại chỉ số gốc
@@ -33,7 +33,6 @@ public class StatsSO : ScriptableObject
             };
             if (!cloneStatDict.ContainsKey(cloneStat.statKey))
             {
-                Debug.Log("Yes");
                 cloneStatDict.Add(cloneStat.statKey, cloneStat);
             }
             else
@@ -42,10 +41,47 @@ public class StatsSO : ScriptableObject
             }
             cloneStatList.Add(cloneStat);
         }
-        StatsSO cloneObjectStatsSO = Instantiate(this);
+        StatsSO cloneObjectStatsSO = ScriptableObject.CreateInstance<StatsSO>();
         cloneObjectStatsSO.statList = cloneStatList;
         cloneObjectStatsSO.statDict = cloneStatDict;
         return cloneObjectStatsSO;
+    }
+
+    /// <summary>
+    /// Function kiểm tra xem chỉ số được truyền có thể tăng không
+    /// </summary>
+    /// <param name="statKey"></param>
+    /// <returns></returns>
+    public bool CanIncreaseStat(Stat statKey)
+    {
+        return statDict[statKey].canIncrease;
+    }
+
+    /// <summary>
+    /// Function kiểm tra xem chỉ số được truyền có thể giảm không
+    /// </summary>
+    /// <param name="statKey"></param>
+    /// <returns></returns>
+    public bool CanDecreaseStat(Stat statKey)
+    {
+        return statDict[statKey].canDecrease;
+    }
+
+    /// <summary>
+    /// Phương thức kiểm tra xem có tồn tại chỉ số được truyền trong các chỉ số đang có không
+    /// </summary>
+    /// <param name="statKey"></param>
+    /// <returns></returns>
+    public bool ContainStatKey(Stat statKey)
+    {
+        if (statDict.ContainsKey(statKey))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     //public void UpdateStat(Stat statKey)
@@ -64,25 +100,30 @@ public class StatsSO : ScriptableObject
     /// </summary>
     /// <param name="statKey"></param>
     /// <returns></returns>
-    public StatEntry GetStat(Stat statKey)
-    {
-        if (statDict.ContainsKey(statKey))
-        {
-            return statDict[statKey];
-        }
-        else
-        {
-            throw new System.Exception($"Không có chỉ số{statKey}");
-        }
-        //foreach (StatObject stat in statList)
-        //{
-        //    if (stat.statKey == statKey)
-        //    {
-        //        return stat;
-        //    }
-        //}
-    }
+    //protected StatEntry GetStat(Stat statKey)
+    //{
+    //    if (statDict.ContainsKey(statKey))
+    //    {
+    //        return statDict[statKey];
+    //    }
+    //    else
+    //    {
+    //        throw new System.Exception($"Không có chỉ số{statKey}");
+    //    }
+    //    //foreach (StatObject stat in statList)
+    //    //{
+    //    //    if (stat.statKey == statKey)
+    //    //    {
+    //    //        return stat;
+    //    //    }
+    //    //}
+    //}
 
+    /// <summary>
+    /// Function lấy ra giá trị của chỉ số truyền vào nếu không có thì trả về 0f kèm debuglog
+    /// </summary>
+    /// <param name="statKey"></param>
+    /// <returns></returns>
     public float GetStatValue(Stat statKey)
     {
         if (statDict.ContainsKey(statKey))
@@ -91,26 +132,35 @@ public class StatsSO : ScriptableObject
         }
         else
         {
-            throw new System.Exception($"Không có chỉ số{statKey}");
+            Debug.Log($"Không có chỉ số{statKey}");
+            return 0f;
         }
     }
 
+    /// <summary>
+    /// Function cài giá trị của stat
+    /// </summary>
+    /// <param name="statKey"></param>
+    /// <param name="statValue"></param>
     public void SetStatValue(Stat statKey, float statValue)
     {
         if (statDict.ContainsKey(statKey))
         {
-            statDict[statKey].statValue = statValue;
-            StatUpdatePerformed?.Invoke();
+            if (statDict[statKey].statValue != statValue)
+            {
+                statDict[statKey].statValue = statValue;
+                ModifyStat();
+            }
         }
         else
         {
-            throw new System.Exception($"Không có chỉ số{statKey}");
+            throw new System.Exception($"không có chỉ số{statKey} để set");
         }
     }
 
-    public void UpdateStat()
+    public void ModifyStat()
     {
-
+        ModifiyStatPerformed?.Invoke();
     }
     
     public void RemoveStat(Stat statNameKey)

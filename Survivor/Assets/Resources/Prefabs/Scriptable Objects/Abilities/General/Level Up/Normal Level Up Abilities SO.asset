@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a343d38982b5a7d4b83160530869dcca, type: 3}
+  m_Name: Normal Level Up Abilities SO
+  m_EditorClassIdentifier: 
+  abilityName: "Level Up b\xECnh th\u01B0\u1EDDng"
+  abilityDescription:
+  - "C\xE1c ch\u1EC9 s\u1ED1 thay \u0111\u1ED5i khi l\xEAn c\u1EA5p:"
+  - +1 Level
+  bonusStatList:
+  - bonusStatKey: 0
+    bonusStatValue: 1
