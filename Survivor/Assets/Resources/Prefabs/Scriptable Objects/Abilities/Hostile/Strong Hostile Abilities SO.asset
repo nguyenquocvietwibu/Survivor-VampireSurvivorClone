@@ -18,3 +18,9 @@ MonoBehaviour:
   hostile: {fileID: 0}
   moveAbilitySO: {fileID: 11400000, guid: 64ab87d1c52bf2744876c5ff2153d672, type: 2}
   ItemDropPrefab: {fileID: 3680151284903434901, guid: 174f6199e53f2f147bc7e28d205b5852, type: 3}
+  isDamaged: 0
+  canDamage: 1
+  canRevive: 1
+  canDisappear: 1
+  canDie: 1
+  canMove: 1

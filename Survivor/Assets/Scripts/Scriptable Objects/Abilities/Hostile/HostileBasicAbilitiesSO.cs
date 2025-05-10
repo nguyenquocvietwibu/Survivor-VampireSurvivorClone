@@ -16,6 +16,14 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
     public MoveAbilitySO moveAbilitySO;
     public GameObject ItemDropPrefab;
 
+    public bool isDamaged;
+
+    public bool canDamage;
+    public bool canRevive;
+    public bool canDisappear;
+    public bool canDie;
+    public bool canMove;
+
 
     public void Damage(float damageAmount)
     {
@@ -59,6 +67,11 @@ public class HostileBasicAbilitiesSO : HostileAbilitesSO, IHostileBasicAbilities
         HostileBasicAbilitiesSO cloneBasicAbilitiesSO = ScriptableObject.CreateInstance<HostileBasicAbilitiesSO>();
         cloneBasicAbilitiesSO.moveAbilitySO = (MoveAbilitySO)moveAbilitySO.GetCloneSO();
         cloneBasicAbilitiesSO.ItemDropPrefab = ItemDropPrefab;
+        cloneBasicAbilitiesSO.canDamage = canDamage;
+        cloneBasicAbilitiesSO.canDie = canDie;
+        cloneBasicAbilitiesSO.canDisappear = canDisappear;
+        cloneBasicAbilitiesSO.canRevive = canRevive;
+        cloneBasicAbilitiesSO.canMove = canMove;
         return cloneBasicAbilitiesSO;
     }
 

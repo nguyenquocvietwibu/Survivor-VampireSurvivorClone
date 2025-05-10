@@ -33,6 +33,7 @@ public class StatsSO : ScriptableObject, IModifyStatAbility, ICloneScriptableObj
             };
             if (!cloneStatDict.ContainsKey(cloneStat.statKey))
             {
+                
                 cloneStatDict.Add(cloneStat.statKey, cloneStat);
             }
             else

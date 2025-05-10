@@ -42,6 +42,8 @@ public class Hostile : MonoBehaviour, IActionsObserver
 
     public StatsManager statsManager;
 
+    public HostileStatesManager statesManager;
+
     public bool hasStarted;
 
     public AbilitiesManager abilitiesManager;
@@ -85,6 +87,7 @@ public class Hostile : MonoBehaviour, IActionsObserver
         statsManager = GetComponent<StatsManager>();
         abilitiesManager = GetComponent<AbilitiesManager>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+
         if (rigidBody2D == null || animator == null || spriteRenderer == null)
         {
             throw new Exception("Component NULL");
@@ -109,6 +112,8 @@ public class Hostile : MonoBehaviour, IActionsObserver
         {
             throw new System.Exception("NULL Hostile abilitesSO");
         }
+
+        statesManager = GetComponent<HostileStatesManager>();
 
         moveSpeed = 1f;
         smoothFactor = 1.0f;

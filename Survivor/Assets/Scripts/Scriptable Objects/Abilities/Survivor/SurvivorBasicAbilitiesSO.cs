@@ -56,7 +56,7 @@ public class SurvivorBasicAbilitiesSO : SurvivorAbilitiesSO, ISurvivorBasicAbili
     public void GainXp(float xpAmount)
     {
         float currentXp = survivor.statsManager.currentStatSO.GetStatValue(Stat.Experience);
-        float requireXp = ILevelUpAbility.GetXpRequired(survivor.statsManager.currentStatSO.GetStatValue(Stat.Level));
+        float requireXp = IGainXpAbility.GetXpRequired(survivor.statsManager.currentStatSO.GetStatValue(Stat.Level));
         survivor.statsManager.currentStatSO.SetStatValue(Stat.Experience, currentXp + xpAmount);
         currentXp = survivor.statsManager.currentStatSO.GetStatValue(Stat.Experience);
         while (currentXp >= requireXp)
