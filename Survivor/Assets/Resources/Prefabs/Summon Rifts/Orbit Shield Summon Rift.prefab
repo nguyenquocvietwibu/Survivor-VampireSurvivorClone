@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7198335187551500624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3872657056036509509}
+  - component: {fileID: 5665634855668459871}
+  - component: {fileID: 7007726655946247249}
+  - component: {fileID: 1077202912315609981}
+  m_Layer: 0
+  m_Name: Orbit Shield Summon Rift
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3872657056036509509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198335187551500624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5665634855668459871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198335187551500624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23558a0eb7e9ed44a91c9cd7a4b69134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitShieldPool: {fileID: 0}
+  statsManager: {fileID: 0}
+  canSummon: 0
+  summonRadius: 0
+  tempOrbitShieldGO: {fileID: 0}
+  _hasStarted: 0
+--- !u!114 &7007726655946247249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198335187551500624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ae04f8d5f8df74dae7e158cac5e9ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStatSO: {fileID: 11400000, guid: 699734796ed829943888b26f1c43e9c7, type: 2}
+  maxStatSO: {fileID: 0}
+--- !u!114 &1077202912315609981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198335187551500624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526f4ea1caea70747ab552049f8e2948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledGO: {fileID: 5152425950680571895, guid: 2cc633b7a3bdaca4f929a990ea1f0cf9, type: 3}
+  tempPooledGO: {fileID: 0}
+  pooledGOList: []
